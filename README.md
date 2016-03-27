@@ -1,5 +1,5 @@
 # TYCircleMenu
----滚轮式菜单
+滚轮式菜单
 
 A circle menu in the style of wheel. 
 
@@ -30,7 +30,7 @@ A circle menu in the style of wheel.
 -Custom menu icons, and the title
 
 ###Usage
-###Initialize
+####Initialize
 ```objective-c
 NSArray *imageNames = @[@"test_0",@"test_1",@"test_2"];
     NSArray *titles     = @[@"one",@"two",@"three"];
@@ -43,7 +43,7 @@ NSArray *imageNames = @[@"test_0",@"test_1",@"test_2"];
     [self.view addSubview:menu];
    ```
 
-###implement protocol method
+####implement protocol method
 ```objective-c
 - (void)selectMenuAtIndex:(NSInteger)index {
     NSLog(@"选中:%zd",index);
