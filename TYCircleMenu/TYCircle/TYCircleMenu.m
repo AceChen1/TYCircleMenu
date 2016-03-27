@@ -31,9 +31,9 @@
 - (id)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
   
     if ((self = [super initWithFrame:frame])) {
-        circleRadious = menuRadious-(itemOffset+20)-TYCircleViewMargin-TYCircleCellSize.height/2;
+        circleRadious = menuRadious-(itemOffset+TYCircleCellSize.height/2)-TYCircleViewMargin-TYCircleViewMargin;
         
-        circleView = [[TYCircleView alloc]initWithFrame:CGRectMake(-circleRadious+(itemOffset+20)-TYDefaultItemPadding, TYCircleViewMargin+TYCircleCellSize.height/2-TYDefaultItemPadding, (circleRadious+TYDefaultItemPadding)*2, (circleRadious+TYDefaultItemPadding)*2)];
+        circleView = [[TYCircleView alloc]initWithFrame:CGRectMake(-circleRadious+(itemOffset+TYCircleCellSize.height/2)-TYDefaultItemPadding, TYCircleViewMargin+TYCircleViewMargin-TYDefaultItemPadding, (circleRadious+TYDefaultItemPadding)*2, (circleRadious+TYDefaultItemPadding)*2)];
         circleCollectionView = [[TYCircleCollectionView alloc] initWithFrame:self.bounds itemOffset:itemOffset imageArray:images titleArray:titles];
         circleCollectionView.menuDelegate = menudelegate;
         
@@ -42,7 +42,7 @@
             [weakSelf setCircleMenuHidden:YES animated:YES];
         };
         
-        UIButton *centerButton = [[UIButton alloc]initWithFrame:CGRectMake(30, self.bounds.size.height-70, 50, 50)];
+        UIButton *centerButton = [[UIButton alloc]initWithFrame:CGRectMake(20, self.bounds.size.height-70, 50, 50)];
         [centerButton setImage:[UIImage imageNamed:@"center_btn"] forState:UIControlStateNormal];
         [centerButton addTarget:self action:@selector(onCenterButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         

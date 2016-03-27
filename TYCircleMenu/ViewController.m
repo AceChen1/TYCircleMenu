@@ -29,7 +29,7 @@
      *  radious:菜单大小（高 == 宽）
      *  itemOffset:首项的偏移距离
      */
-    TYCircleMenu *menu = [[TYCircleMenu alloc]initWithRadious:240 itemOffset:10 imageArray:self.items titleArray:self.items menuDelegate:self];
+    TYCircleMenu *menu = [[TYCircleMenu alloc]initWithRadious:240 itemOffset:0 imageArray:self.items titleArray:self.items menuDelegate:self];
     /* 以下设置为可选，不设置的时候，默认visibleNum = 4, isDismissWhenSelected = NO */
 //    menu.visibleNum = 3; //当前可见菜单数
 //    menu.isDismissWhenSelected = YES; //点击菜单项，隐藏菜单
