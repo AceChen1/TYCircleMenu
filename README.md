@@ -4,31 +4,33 @@
 A circle menu in the style of wheel. 
 
 ###实现效果（Examples)
----默认设置
+默认设置
+
 ![](default_type.gif)
 
 设置可见数量，点击后隐藏
+
 ![](custom_type.gif)
 
 
 ###Waht you can do 
----**1,点击按钮，显示或隐藏菜单
-1, click the button, show or hide menus
+1,点击按钮，显示或隐藏菜单
+-click the button, show or hide menus
 
-**2，点击具体项，获取该项的index,进而做后续操作
-2,Click on the specific item, gets the index of the item, and follow-up actions
+2，点击具体项，获取该项的index,进而做后续操作
+-Click on the specific item, gets the index of the item, and follow-up actions
 
-**3，自定义菜单个数，无上限
-3，The number of custom menus, no limit
+3，自定义菜单个数，无上限
+-The number of custom menus, no limit
 
-**4，自定义可见的菜单数量
-4，Number of custom visible menus
+4，自定义可见的菜单数量
+-Number of custom visible menus
 
-**5，自定义菜单图标和标题
-5,Custom menu icons, and the title
+5，自定义菜单图标和标题
+-Custom menu icons, and the title
 
 ###Usage
----###Initialize
+###Initialize
 ```objective-c
 NSArray *imageNames = @[@"test_0",@"test_1",@"test_2"];
     NSArray *titles     = @[@"one",@"two",@"three"];
@@ -49,4 +51,4 @@ NSArray *imageNames = @[@"test_0",@"test_1",@"test_2"];
 ```
 
 ##License
----This project is under MIT License. See LICENSE file for more information.
+This project is under MIT License. See LICENSE file for more information.
