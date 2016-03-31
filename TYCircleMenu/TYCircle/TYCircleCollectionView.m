@@ -62,8 +62,21 @@ static NSString *cellId = @"TYCircleCell";
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
     cell.imageView.image = [UIImage imageNamed:self.menuImages[indexPath.item]];
     cell.titleLabel.text = self.menuTitles[indexPath.item];
-    if (!_isDismissWhenSelected && indexPath.item == selectedIndex) {
-         cell.bgImageView.image = [UIImage imageNamed:@"empty_btn_highlight"];
+    if (!_isDismissWhenSelected) {
+        if (selectedIndex == indexPath.item) {
+             cell.bgImageView.image = [UIImage imageNamed:@"empty_btn_highlight"];
+        } else {
+            cell.bgImageView.image = [UIImage imageNamed:@"empty_btn"];
+        }
+        
+        if (_isCycle) {
+            //判断镜像
+            if (selectedIndex < 6 && indexPath.item == self.menuImages.count-6+selectedIndex) {
+                    cell.bgImageView.image = [UIImage imageNamed:@"empty_btn_highlight"];
+            } else if (selectedIndex >= self.menuImages.count-6 && indexPath.item == selectedIndex-(self.menuImages.count-6)) {
+                    cell.bgImageView.image = [UIImage imageNamed:@"empty_btn_highlight"];
+            }
+        }
     } else {
          cell.bgImageView.image = [UIImage imageNamed:@"empty_btn"];
     }

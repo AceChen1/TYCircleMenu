@@ -40,7 +40,7 @@
      *       2,选项数量必须大于4
      */
     TYCircleMenu *menu = [[TYCircleMenu alloc]initWithRadious:240 itemOffset:0 imageArray:self.items titleArray:self.items cycle:YES menuDelegate:self];
-    menu.isDismissWhenSelected = YES; //点击菜单项，隐藏菜单
+//    menu.isDismissWhenSelected = YES; //点击菜单项，隐藏菜单
     [self.view addSubview:menu];
 
 }
