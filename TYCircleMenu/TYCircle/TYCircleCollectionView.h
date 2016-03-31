@@ -37,6 +37,6 @@
 
 @property (nonatomic,strong) TYCircleCollectionViewLayout *circleLayout;
 
-- (instancetype)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles;
+- (instancetype)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset cycle:(BOOL)isCycle  imageArray:(NSArray *)images titleArray:(NSArray *)titles;
 
 @end

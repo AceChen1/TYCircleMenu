@@ -20,15 +20,16 @@ static NSString *cellId = @"TYCircleCell";
 @implementation TYCircleCollectionView
 {
     NSInteger selectedIndex;
+    BOOL _isCycle;
 }
 @synthesize isDismissWhenSelected = _isDismissWhenSelected;
 
-- (instancetype)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles {
+- (instancetype)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset cycle:(BOOL)isCycle imageArray:(NSArray *)images titleArray:(NSArray *)titles {
      _circleLayout = [[TYCircleCollectionViewLayout alloc]initWithRadius:frame.size.height-TYCircleViewMargin  itemOffset:itemOffset];
-    return [self initWithFrame:frame collectionViewLayout:_circleLayout imageArray:images titleArray:titles];
+    return [self initWithFrame:frame collectionViewLayout:_circleLayout cycle:isCycle imageArray:images titleArray:titles];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout imageArray:(NSArray *)images titleArray:(NSArray *)titles {
+- (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout cycle:(BOOL)isCycle imageArray:(NSArray *)images titleArray:(NSArray *)titles {
     
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
@@ -37,6 +38,7 @@ static NSString *cellId = @"TYCircleCell";
         self.dataSource = self;
         self.delegate = self;
 
+        _isCycle = isCycle;
         _menuImages = images;
         _menuTitles = titles;
         selectedIndex = -1;
@@ -77,7 +79,19 @@ static NSString *cellId = @"TYCircleCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     if (_menuDelegate && [_menuDelegate respondsToSelector:@selector(selectMenuAtIndex:)]) {
-        [_menuDelegate selectMenuAtIndex:indexPath.item];
+        NSInteger itemIndex;
+        if (_isCycle) {
+            if (indexPath.item < 3) {
+                itemIndex = indexPath.item + (self.menuImages.count - 9);
+            } else if (indexPath.item > self.menuImages.count-4)  {
+                itemIndex = indexPath.item-(self.menuImages.count - 4);
+            } else {
+                itemIndex = indexPath.item-3;
+            }
+        } else {
+            itemIndex = indexPath.item;
+        }
+        [_menuDelegate selectMenuAtIndex:itemIndex];
     }
     
     if (_isDismissWhenSelected && self.selecteBlock) {
@@ -96,6 +110,32 @@ static NSString *cellId = @"TYCircleCell";
         TYCircleCell *selectedCell =
         (TYCircleCell *)[collectionView cellForItemAtIndexPath:indexPath];
         selectedCell.bgImageView.image = [UIImage imageNamed:@"empty_btn"];
+    }
+}
+
+#pragma mark - scrollView delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (!_isCycle) {
+        return;
+    }
+    static CGFloat lastContentOffsetY = FLT_MIN;
+    if (lastContentOffsetY == FLT_MIN) {
+        lastContentOffsetY = scrollView.contentOffset.y;
+        return;
+    }
+    CGFloat itemHeight = _circleLayout.itemHeight;
+    CGFloat contentOffsetY = scrollView.contentOffset.y;
+    if (contentOffsetY<itemHeight && contentOffsetY < lastContentOffsetY) {
+        lastContentOffsetY = contentOffsetY + (self.menuImages.count - TYDefaultVisibleNum -1)*itemHeight;
+        self.contentOffset = CGPointMake(0, (self.menuImages.count - TYDefaultVisibleNum-1)*itemHeight);
+    }
+    else if (contentOffsetY >(self.menuImages.count - TYDefaultVisibleNum-1)*itemHeight && contentOffsetY >lastContentOffsetY) {
+        lastContentOffsetY = contentOffsetY - (self.menuImages.count - TYDefaultVisibleNum-2)*itemHeight;
+        self.contentOffset = CGPointMake(0, lastContentOffsetY);
+    } else {
+        lastContentOffsetY = contentOffsetY;
     }
 }
 

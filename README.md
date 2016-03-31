@@ -50,5 +50,11 @@ A circle menu in the style of wheel.
 }
 ```
 
+
+###Version
+
+v1.1
+增加循环滚动的支持
+
 ##License
 This project is under MIT License. See LICENSE file for more information.

@@ -26,10 +26,16 @@
  *  @param itemOffset   菜单的第一个item距离左边界的距离
  *  @param images       菜单元素的图片数组
  *  @param titles       菜单元素的标题数组
+ *  @param isCycle      是否循环滚动
  *  @param menudelegate 点击菜单的事件代理
  *
  *  @return Menu
  */
-- (id)initWithRadious:(CGFloat)radious itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles menuDelegate:(id<TYCircleMenuDelegate>)menudelegate;
+- (id)initWithRadious:(CGFloat)radious
+           itemOffset:(CGFloat)itemOffset
+           imageArray:(NSArray *)images
+           titleArray:(NSArray *)titles
+                cycle:(BOOL)isCycle
+         menuDelegate:(id<TYCircleMenuDelegate>)menudelegate;
 
 @end

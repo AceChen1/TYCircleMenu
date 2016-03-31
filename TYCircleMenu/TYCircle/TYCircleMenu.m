@@ -22,19 +22,30 @@
     CGFloat circleRadious;
 }
 
-- (id)initWithRadious:(CGFloat)radious itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
+- (id)initWithRadious:(CGFloat)radious itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles cycle:(BOOL)isCycle menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
     
     menuRadious = radious;
-    return [self initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - menuRadious, menuRadious, menuRadious) itemOffset:itemOffset imageArray:images titleArray:titles menuDelegate:menudelegate];
+    return [self initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - menuRadious, menuRadious, menuRadious) itemOffset:itemOffset imageArray:images titleArray:titles cycle:isCycle menuDelegate:menudelegate];
 }
 
-- (id)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
+- (id)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles cycle:(BOOL)isCycle menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
   
+    NSAssert(images.count>=4, @"option'count must big than 4");
+    
     if ((self = [super initWithFrame:frame])) {
         circleRadious = menuRadious-(itemOffset+TYCircleCellSize.height/2)-TYCircleViewMargin-TYCircleViewMargin;
         
         circleView = [[TYCircleView alloc]initWithFrame:CGRectMake(-circleRadious+(itemOffset+TYCircleCellSize.height/2)-TYDefaultItemPadding, TYCircleViewMargin+TYCircleViewMargin-TYDefaultItemPadding, (circleRadious+TYDefaultItemPadding)*2, (circleRadious+TYDefaultItemPadding)*2)];
-        circleCollectionView = [[TYCircleCollectionView alloc] initWithFrame:self.bounds itemOffset:itemOffset imageArray:images titleArray:titles];
+        
+        if (isCycle) {
+            images = [self cycleArrayWithArray:[NSMutableArray arrayWithArray:images]];
+            titles = [self cycleArrayWithArray:[NSMutableArray arrayWithArray:titles]];
+            circleCollectionView = [[TYCircleCollectionView alloc] initWithFrame:self.bounds itemOffset:itemOffset cycle:isCycle imageArray:images titleArray:titles];
+            [circleCollectionView setContentOffset:CGPointMake(0, ([UIScreen mainScreen].bounds.size.height/TYDefaultVisibleNum)*3)];
+        } else {
+            circleCollectionView = [[TYCircleCollectionView alloc] initWithFrame:self.bounds itemOffset:itemOffset cycle:isCycle imageArray:images titleArray:titles];
+        }
+
         circleCollectionView.menuDelegate = menudelegate;
         
         __weak TYCircleMenu *weakSelf = self;
@@ -59,6 +70,7 @@
     
     [self setCircleMenuHidden:!self.isHideMenu animated:YES];
 }
+
 
 #pragma mark - 显示和隐藏菜单
 
@@ -119,6 +131,18 @@
     circleCollectionView.isDismissWhenSelected = isDismissWhenSelected;
 }
 
+#pragma mark 
+
+- (NSArray*)cycleArrayWithArray:(NSMutableArray *)originArray {
+    
+    NSArray *beginArray = [originArray subarrayWithRange:NSMakeRange(originArray.count-3, 3)];
+    NSArray *tailArray = [originArray subarrayWithRange:NSMakeRange(0, 3)];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 3)];
+    
+    [originArray insertObjects:beginArray atIndexes:indexSet];
+    [originArray addObjectsFromArray:tailArray];
+    return [originArray copy];
+}
 
 
 @end
