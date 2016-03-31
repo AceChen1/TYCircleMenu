@@ -29,8 +29,6 @@
 }
 
 - (id)initWithFrame:(CGRect)frame itemOffset:(CGFloat)itemOffset imageArray:(NSArray *)images titleArray:(NSArray *)titles cycle:(BOOL)isCycle menuDelegate:(id<TYCircleMenuDelegate>)menudelegate {
-  
-    NSAssert(images.count>=4, @"option'count must big than 4");
     
     if ((self = [super initWithFrame:frame])) {
         circleRadious = menuRadious-(itemOffset+TYCircleCellSize.height/2)-TYCircleViewMargin-TYCircleViewMargin;
@@ -38,6 +36,7 @@
         circleView = [[TYCircleView alloc]initWithFrame:CGRectMake(-circleRadious+(itemOffset+TYCircleCellSize.height/2)-TYDefaultItemPadding, TYCircleViewMargin+TYCircleViewMargin-TYDefaultItemPadding, (circleRadious+TYDefaultItemPadding)*2, (circleRadious+TYDefaultItemPadding)*2)];
         
         if (isCycle) {
+            NSAssert(images.count>=4, @"option'count must big than 4");
             images = [self cycleArrayWithArray:[NSMutableArray arrayWithArray:images]];
             titles = [self cycleArrayWithArray:[NSMutableArray arrayWithArray:titles]];
             circleCollectionView = [[TYCircleCollectionView alloc] initWithFrame:self.bounds itemOffset:itemOffset cycle:isCycle imageArray:images titleArray:titles];
