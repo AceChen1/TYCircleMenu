@@ -63,8 +63,9 @@
     for( NSInteger i = visibleFirstIndex; i <= visibleLastIndex; i++ ){
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
         UICollectionViewLayoutAttributes *theAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
-        
-        [attributes addObject:theAttributes];
+        if (theAttributes.frame.origin.y   <= self.collectionView.contentOffset.y +  self.collectionView.bounds.size.height) {
+            [attributes addObject:theAttributes];
+        }
     }
     
     
